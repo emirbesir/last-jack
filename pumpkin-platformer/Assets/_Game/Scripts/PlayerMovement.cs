@@ -7,10 +7,10 @@ public class PlayerMovement : MonoBehaviour
     private const float GROUND_CHECK_DISTANCE = 1.3f;
     
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float maxSpeed = 7f;
+    [SerializeField] private float moveForceMultiplier;
+    [SerializeField] private float maxSpeed;
     [Header("Jump Settings")]
-    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask groundLayer;
 
     // References
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             desiredDirection.Normalize();
         }
 
-        Vector3 movementForce = desiredDirection * moveSpeed;
+        Vector3 movementForce = desiredDirection * moveForceMultiplier;
 
         rb.AddForce(movementForce, ForceMode.Acceleration);
 
@@ -96,6 +96,8 @@ public class PlayerMovement : MonoBehaviour
     private void HandleCrouch()
     {
         isCrouching = !isCrouching;
+        rb.linearVelocity = new Vector3(0f, 0f, 0f);
+        rb.angularVelocity = new Vector3(0f, 0f, 0f);
     }
 
     private bool IsGrounded()
