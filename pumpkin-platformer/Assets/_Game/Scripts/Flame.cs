@@ -4,36 +4,92 @@ using UnityEngine;
 public class Flame : MonoBehaviour
 {
     [Header("Flame Settings")]
-    [SerializeField] private float flameTotal = 120f;
-    [SerializeField] private float flameDecayRate = 1f;
+    [SerializeField] private float flameTotalSeconds;
+    [SerializeField] private float flameDecayRate;
+    [SerializeField] private float minFlameIntensity;
+    [Header("References")]
     [SerializeField] private Light flameLight;
-    
-    private float currentFlame;
+    [SerializeField] private PlayerMovement playerMovement;
 
+    // State
+    private float currentFlameSeconds;
+    private float startingFlameIntensity;
+    private bool isFlameDepleted;
+
+    // Events
     public event Action OnFlameDepleted;
+
+    // Singleton
+    public static Flame Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {
-        currentFlame = flameTotal;
+        currentFlameSeconds = flameTotalSeconds;
+        startingFlameIntensity = flameLight.intensity;
+        isFlameDepleted = false;
     }
 
     private void Update()
     {
+        if (playerMovement.IsCrouching) return;
+
         DecayFlame();
+        UpdateLightIntensity();
     }
 
     private void DecayFlame()
     {
-        currentFlame -= flameDecayRate * Time.deltaTime;
+        if (isFlameDepleted) return;
+        
+        currentFlameSeconds -= flameDecayRate * Time.deltaTime;
 
-        if (currentFlame <= 0)
+        if (currentFlameSeconds <= 0)
         {
+            isFlameDepleted = true;
+            OnFlameDepleted?.Invoke();
+        }
+    }
+
+    private void UpdateLightIntensity()
+    {
+        if (isFlameDepleted) return;
+
+        flameLight.intensity = Mathf.Clamp(GetIntensityRatio() * startingFlameIntensity, minFlameIntensity, startingFlameIntensity);
+    }
+
+    public void ReplenishFlame(float seconds)
+    {
+        if (isFlameDepleted) return;
+
+        currentFlameSeconds = Mathf.Min(currentFlameSeconds + seconds, flameTotalSeconds);
+    }
+
+    public void DamageFlame(float seconds)
+    {
+        if (isFlameDepleted) return;
+
+        currentFlameSeconds = Mathf.Max(currentFlameSeconds - seconds, 0);
+        if (currentFlameSeconds <= 0)
+        {
+            isFlameDepleted = true;
             OnFlameDepleted?.Invoke();
         }
     }
     
-    private void UpdateLightIntensity()
+    public float GetIntensityRatio()
     {
-        flameLight.intensity = Mathf.Clamp(currentFlame / flameTotal, 0.1f, 1f);
+        return currentFlameSeconds / flameTotalSeconds;
     }
 }

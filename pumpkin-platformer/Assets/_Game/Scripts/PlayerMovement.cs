@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(PlayerInputHandler))]
 public class PlayerMovement : MonoBehaviour
 {
-    private const float GROUND_CHECK_DISTANCE = 1.1f;
+    private const float GROUND_CHECK_DISTANCE = 1.3f;
     
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
@@ -13,31 +13,36 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private LayerMask groundLayer;
 
+    // References
     private Rigidbody rb;
-    private PlayerInputHandler inputHandler;
     private Camera mainCamera;
+
+    // State
     private Vector2 movementInput;
+    private bool isCrouching;
+    public bool IsCrouching => isCrouching;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        inputHandler = GetComponent<PlayerInputHandler>();
         mainCamera = Camera.main;
     }
 
     private void OnEnable()
     {
-        inputHandler.OnJumpPerformed += HandleJump;
+        PlayerInputHandler.Instance.OnJumpPerformed += HandleJump;
+        PlayerInputHandler.Instance.OnCrouchPerformed += HandleCrouch;
     }
 
     private void OnDisable()
     {
-        inputHandler.OnJumpPerformed -= HandleJump;
+        PlayerInputHandler.Instance.OnJumpPerformed -= HandleJump;
+        PlayerInputHandler.Instance.OnCrouchPerformed -= HandleCrouch;
     }
 
     private void Update()
     {
-        movementInput = inputHandler.GetMovementInput();
+        movementInput = PlayerInputHandler.Instance.GetMovementInput();
     }
 
     private void FixedUpdate()
@@ -47,7 +52,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        
+        if (isCrouching) return;
+
         Vector3 cameraForward = mainCamera.transform.forward;
         Vector3 cameraRight = mainCamera.transform.right;
 
@@ -79,10 +85,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleJump()
     {
+        if (isCrouching) return;
+        
         if (IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+    }
+
+    private void HandleCrouch()
+    {
+        isCrouching = !isCrouching;
     }
 
     private bool IsGrounded()
