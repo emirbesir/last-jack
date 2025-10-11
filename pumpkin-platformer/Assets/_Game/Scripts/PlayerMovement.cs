@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(PlayerInputHandler))]
 public class PlayerMovement : MonoBehaviour
 {
+    private const float GROUND_CHECK_DISTANCE = 1.1f;
+    
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float maxSpeed = 7f;
@@ -13,13 +15,14 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rb;
     private PlayerInputHandler inputHandler;
-
+    private Camera mainCamera;
     private Vector2 movementInput;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         inputHandler = GetComponent<PlayerInputHandler>();
+        mainCamera = Camera.main;
     }
 
     private void OnEnable()
@@ -44,20 +47,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        // Calculate the movement force from input
-        Vector3 movementForce = new Vector3(movementInput.x, 0, movementInput.y) * moveSpeed;
+        
+        Vector3 cameraForward = mainCamera.transform.forward;
+        Vector3 cameraRight = mainCamera.transform.right;
 
-        // Apply the force to the rigidbody
-        rb.AddForce(movementForce, ForceMode.Force);
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
 
-        // Get the current velocity but ignore the vertical (Y) component
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        Vector3 desiredDirection = cameraRight * movementInput.x + cameraForward * movementInput.y;
+
+        if (desiredDirection.sqrMagnitude > 1f)
+        {
+            desiredDirection.Normalize();
+        }
+
+        Vector3 movementForce = desiredDirection * moveSpeed;
+
+        rb.AddForce(movementForce, ForceMode.Acceleration);
+
         Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
 
-        // Check if the horizontal speed has exceeded the max speed
         if (horizontalVelocity.magnitude > maxSpeed)
         {
-            // If it has, clamp the velocity to the max speed
-            // We preserve the original vertical velocity (rb.velocity.y)
             Vector3 clampedVelocity = horizontalVelocity.normalized * maxSpeed;
             rb.linearVelocity = new Vector3(clampedVelocity.x, rb.linearVelocity.y, clampedVelocity.z);
         }
@@ -73,12 +87,6 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 1.1f);
+        return Physics.Raycast(transform.position, Vector3.down, GROUND_CHECK_DISTANCE, groundLayer);
     }
 }
