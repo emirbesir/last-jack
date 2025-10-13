@@ -1823,10 +1823,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7680176819948733116, guid: 48a0b830c9264834f9625e98973cf018, type: 3}
-      propertyPath: flickerMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: 6bf927be2ffe8bf4abc3451ef508703d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
