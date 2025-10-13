@@ -333,7 +333,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9c99db18af71c22478b3b00f41854035, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 183c66579ebeb724b9aa0e755eb81ba4, type: 2}
+      objectReference: {fileID: 5027247261723986022, guid: 9c99db18af71c22478b3b00f41854035, type: 3}
     - target: {fileID: 919132149155446097, guid: 9c99db18af71c22478b3b00f41854035, type: 3}
       propertyPath: m_Name
       value: pumpkin_yellow_jackolantern

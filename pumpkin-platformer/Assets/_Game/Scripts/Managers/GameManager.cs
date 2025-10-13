@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         CheckpointManager.Instance.RespawnPlayer();
+        ScreenManager.Instance.ScreenOpeningEffect();
         Flame.Instance.ResetFlame();
     }
 }
