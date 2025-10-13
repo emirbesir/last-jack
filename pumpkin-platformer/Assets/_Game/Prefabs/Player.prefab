@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9051999336469979824}
   - component: {fileID: 2262531685743456539}
   - component: {fileID: 2962631455196569325}
+  - component: {fileID: 7680176819948733116}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -227,11 +228,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4fbc85ee444354892a0fd95a782eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  flameTotalSeconds: 120
+  flameTotalSeconds: 150
   flameDecayRate: 1
   minFlameIntensity: 0.1
   flameLight: {fileID: 7488297977521600525}
   playerMovement: {fileID: 2262531685743456539}
+--- !u!114 &7680176819948733116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847122352268596669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c47b0881e1b822469c7bcc8b6e1a752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  playerLight: {fileID: 7488297977521600525}
+  pulseParticle: {fileID: 938488830897736746}
+  tapThreshold: 0.2
+  pulseFlameCost: 5
+  pulseRadius: 8
+  pulseForce: 500
+  glowFlameCostPerSecond: 5
+  glowIntensity: 50
+  glowTransitionSpeed: 1.5
 --- !u!1 &1258065046692511363
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,11 +465,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3898346190758519169, guid: 2317b4c94eb218a428629787cd260ec9, type: 3}
+      propertyPath: stopAction
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2317b4c94eb218a428629787cd260ec9, type: 3}
+--- !u!198 &938488830897736746 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3898346190758519169, guid: 2317b4c94eb218a428629787cd260ec9, type: 3}
+  m_PrefabInstance: {fileID: 4260294928187026859}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1136762705895677286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3808088163556962509, guid: 2317b4c94eb218a428629787cd260ec9, type: 3}

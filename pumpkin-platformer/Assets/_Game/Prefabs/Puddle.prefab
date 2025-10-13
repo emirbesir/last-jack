@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 687483018340579833}
   - component: {fileID: 3818294292223490200}
   - component: {fileID: 7908377483161292123}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Puddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2593029483842746274}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Puddle Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,6 +167,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2895f5e52afe1394683f4b0859739470, type: 3}
       propertyPath: m_Name
       value: puddle
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2895f5e52afe1394683f4b0859739470, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

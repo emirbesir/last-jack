@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Flame : MonoBehaviour
@@ -15,6 +16,9 @@ public class Flame : MonoBehaviour
     private float currentFlameSeconds;
     private float startingFlameIntensity;
     private bool isFlameDepleted;
+    private bool isGlowing;
+
+    public float CurrentFlameSeconds => currentFlameSeconds;    
 
     // Events
     public event Action OnFlameDepleted;
@@ -46,6 +50,9 @@ public class Flame : MonoBehaviour
         if (playerMovement.IsCrouching) return;
 
         DecayFlame();
+
+        if (isGlowing) return;
+
         UpdateLightIntensity();
     }
 
@@ -104,5 +111,10 @@ public class Flame : MonoBehaviour
         currentFlameSeconds = flameTotalSeconds;
         isFlameDepleted = false;
         UpdateLightIntensity();
+    }
+
+    public void SetGlowing(bool glowing)
+    {
+        isGlowing = glowing;
     }
 }
