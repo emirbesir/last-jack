@@ -2,12 +2,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Candle : MonoBehaviour
-{   
+{
     private const string PLAYER_LAYER_NAME = "Player";
 
     [Header("Candle Settings")]
     [SerializeField] private float flameReplenishSeconds;
     [SerializeField] private Light candleLight;
+    [SerializeField] private bool isCheckpoint;
 
     // References
     private BoxCollider boxCollider;
@@ -57,7 +58,17 @@ public class Candle : MonoBehaviour
     {
         if (isPlayerInRange && !hasBeenUsed)
         {
-            Flame.Instance.ReplenishFlame(flameReplenishSeconds);
+            if (isCheckpoint)
+            {
+                CheckpointManager.Instance.SetCheckpoint(transform);
+                Flame.Instance.IncreaseMaxFlame(flameReplenishSeconds);
+                Flame.Instance.ResetFlame();
+            }
+            else
+            {
+                Flame.Instance.ReplenishFlame(flameReplenishSeconds);
+            }
+            
             candleLight.enabled = false;
             boxCollider.enabled = false;
             hasBeenUsed = true;

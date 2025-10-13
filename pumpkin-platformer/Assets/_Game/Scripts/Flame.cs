@@ -29,7 +29,7 @@ public class Flame : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -87,9 +87,22 @@ public class Flame : MonoBehaviour
             OnFlameDepleted?.Invoke();
         }
     }
-    
+
     public float GetIntensityRatio()
     {
         return currentFlameSeconds / flameTotalSeconds;
+    }
+
+    public void IncreaseMaxFlame(float additionalSeconds)
+    {
+        flameTotalSeconds += additionalSeconds;
+        currentFlameSeconds += additionalSeconds;
+    }
+
+    public void ResetFlame()
+    {
+        currentFlameSeconds = flameTotalSeconds;
+        isFlameDepleted = false;
+        UpdateLightIntensity();
     }
 }
