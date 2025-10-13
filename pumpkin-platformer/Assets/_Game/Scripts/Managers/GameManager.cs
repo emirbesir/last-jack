@@ -7,6 +7,15 @@ public class GameManager : MonoBehaviour
     [Header("Game Settings")]
     [SerializeField] private float respawnDelaySeconds;
 
+    [Header("References")]
+    [SerializeField] private GameObject player;
+    private Rigidbody playerRb;
+
+    private void Start()
+    {
+        playerRb = player.GetComponent<Rigidbody>();
+    }
+
     private void OnEnable()
     {
         Flame.Instance.OnFlameDepleted += HandleFlameDepleted;
@@ -22,11 +31,19 @@ public class GameManager : MonoBehaviour
         StartCoroutine(RespawnPlayerAfterDelay(respawnDelaySeconds));
     }
 
-    IEnumerator RespawnPlayerAfterDelay(float delay)
+    private IEnumerator RespawnPlayerAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        CheckpointManager.Instance.RespawnPlayer();
-        ScreenManager.Instance.ScreenOpeningEffect();
+        
+        // Reset
         Flame.Instance.ResetFlame();
+        CheckpointManager.Instance.RespawnPlayer();
+
+        // Reset player velocity to prevent carry-over momentum
+        playerRb.linearVelocity = Vector3.zero;
+        playerRb.angularVelocity = Vector3.zero;
+        player.transform.localRotation = Quaternion.identity;
+        
+        ScreenManager.Instance.ScreenOpeningEffect();
     }
 }

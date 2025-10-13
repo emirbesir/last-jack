@@ -92,13 +92,13 @@ public class Flare : MonoBehaviour
             isGlowing = false;
             float intensityRatio = Flame.Instance.GetIntensityRatio();
 
-            playerLight.intensity = Mathf.Lerp(playerLight.intensity, initialLightIntensity * intensityRatio, Time.deltaTime * glowTransitionSpeed);
+            playerLight.intensity = Mathf.Lerp(playerLight.intensity, initialLightIntensity * intensityRatio, Time.deltaTime * glowTransitionSpeed * 1.5f);
         }
 
-        if (Mathf.Abs(playerLight.intensity - initialLightIntensity) < 0.01f && !isGlowing)
+        if (Mathf.Abs(playerLight.intensity - initialLightIntensity) < 0.1f && !isGlowing)
         {
-            playerLight.intensity = initialLightIntensity * Flame.Instance.GetIntensityRatio();
             Flame.Instance.SetGlowing(false);
+            playerLight.intensity = initialLightIntensity * Flame.Instance.GetIntensityRatio();
         }
     }
 

@@ -19,6 +19,7 @@ public class Flame : MonoBehaviour
     private bool isGlowing;
 
     public float CurrentFlameSeconds => currentFlameSeconds;    
+    public bool IsGlowing => isGlowing;
 
     // Events
     public event Action OnFlameDepleted;
