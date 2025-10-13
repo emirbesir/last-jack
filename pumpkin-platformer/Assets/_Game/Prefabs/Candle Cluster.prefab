@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5851096156281662900}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 828369264007213015}
+  m_Father: {fileID: 1279887507870736940}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &8511471083232669024
 Light:
@@ -159,7 +159,6 @@ Transform:
   - {fileID: 6356034902173100221}
   - {fileID: 22432897093482170}
   - {fileID: 291077783460378876}
-  - {fileID: 658755073362441842}
   m_Father: {fileID: 1279887507870736940}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7821696770472830911
@@ -194,6 +193,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 828369264007213015}
+  - {fileID: 658755073362441842}
+  - {fileID: 6433370877761398540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5685530224068619873
@@ -230,8 +231,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   flameReplenishSeconds: 30
-  candleLight: {fileID: 8511471083232669024}
   isCheckpoint: 1
+  candleLight: {fileID: 8511471083232669024}
+  candleParticles: {fileID: 2933871434379020133}
 --- !u!1001 &252382787352698647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -417,4 +419,71 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 783a15a84db71c34f944da7a8b975f22, type: 3}
   m_PrefabInstance: {fileID: 6899397445826793302}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7362749830807033251
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1279887507870736940}
+    m_Modifications:
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5793658527215423852, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+      propertyPath: m_Name
+      value: Candle Cluster Particles
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+--- !u!198 &2933871434379020133 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5663990597069951686, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+  m_PrefabInstance: {fileID: 7362749830807033251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6433370877761398540 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4569554160896029359, guid: ae03eae6cf9a4d34881cbe11dad2746b, type: 3}
+  m_PrefabInstance: {fileID: 7362749830807033251}
   m_PrefabAsset: {fileID: 0}

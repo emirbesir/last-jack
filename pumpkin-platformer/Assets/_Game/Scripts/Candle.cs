@@ -7,8 +7,10 @@ public class Candle : MonoBehaviour
 
     [Header("Candle Settings")]
     [SerializeField] private float flameReplenishSeconds;
-    [SerializeField] private Light candleLight;
     [SerializeField] private bool isCheckpoint;
+    [Header("References")]
+    [SerializeField] private Light candleLight;
+    [SerializeField] private ParticleSystem candleParticles;
 
     // References
     private BoxCollider boxCollider;
@@ -72,6 +74,7 @@ public class Candle : MonoBehaviour
             candleLight.enabled = false;
             boxCollider.enabled = false;
             hasBeenUsed = true;
+            candleParticles.Stop();
         }
     }
 }

@@ -11,6 +11,8 @@ public class PlayerInputHandler : MonoBehaviour
     public event Action OnJumpPerformed;
     public event Action OnCrouchPerformed;
     public event Action OnInteractPerformed;
+    public event Action OnFlareStarted;
+    public event Action OnFlareCanceled;
 
     // Singleton
     public static PlayerInputHandler Instance { get; private set; }
@@ -35,6 +37,8 @@ public class PlayerInputHandler : MonoBehaviour
         gameInputActions.Player.Jump.performed += JumpPerformed;
         gameInputActions.Player.Crouch.performed += CrouchPerformed;
         gameInputActions.Player.Interact.performed += InteractPerformed;
+        gameInputActions.Player.Flare.started += FlareStarted;
+        gameInputActions.Player.Flare.canceled += FlareCanceled;
     }
 
     private void OnDisable()
@@ -58,6 +62,16 @@ public class PlayerInputHandler : MonoBehaviour
     private void InteractPerformed(InputAction.CallbackContext context)
     {
         OnInteractPerformed?.Invoke();
+    }
+
+    private void FlareStarted(InputAction.CallbackContext context)
+    {
+        OnFlareStarted?.Invoke();
+    }
+
+    private void FlareCanceled(InputAction.CallbackContext context)
+    {
+        OnFlareCanceled?.Invoke();
     }
 
     public Vector2 GetMovementInput()
