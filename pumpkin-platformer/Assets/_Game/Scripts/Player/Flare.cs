@@ -3,23 +3,25 @@ using UnityEngine;
 public class Flare : MonoBehaviour
 {
     private const string GROUND_ENEMY_LAYER_NAME = "Ground Enemy";
+    private const string GLOW_STRENGTH_PROPERTY = "_Player_Glow_Strength";
 
     [Header("References")]
-    public Light playerLight;
-    public ParticleSystem pulseParticle;
+    [SerializeField] private Light playerLight;
+    [SerializeField] private ParticleSystem pulseParticle;
 
     [Header("Input Settings")]
-    public float tapThreshold;
+    [SerializeField] private float tapThreshold;
 
     [Header("Pulse (Tap) Settings")]
-    public float pulseFlameCost;
-    public float pulseRadius;
-    public float pulseForce;
+    [SerializeField] private float pulseFlameCost;
+    [SerializeField] private float pulseRadius;
+    [SerializeField] private float pulseForce;
 
     [Header("Glow (Hold) Settings")]
-    public float glowFlameCostPerSecond;
-    public float glowIntensity;
-    public float glowTransitionSpeed;
+    [SerializeField] private float glowFlameCostPerSecond;
+    [SerializeField] private float glowIntensity;
+    [SerializeField] private float glowTransitionSpeed;
+    [SerializeField] private Material flickerMaterial;
 
     // Private state variables
     private float holdTimer = 0.0f;
@@ -84,6 +86,7 @@ public class Flare : MonoBehaviour
             isGlowing = true;
             Flame.Instance.DamageFlame(glowCostThisFrame);
             Flame.Instance.SetGlowing(true);
+            flickerMaterial.SetFloat(GLOW_STRENGTH_PROPERTY, 1f);
 
             playerLight.intensity = Mathf.Lerp(playerLight.intensity, glowIntensity, Time.deltaTime * glowTransitionSpeed);
         }
@@ -98,6 +101,7 @@ public class Flare : MonoBehaviour
         if (Mathf.Abs(playerLight.intensity - initialLightIntensity) < 0.1f && !isGlowing)
         {
             Flame.Instance.SetGlowing(false);
+            flickerMaterial.SetFloat(GLOW_STRENGTH_PROPERTY, 0f);
             playerLight.intensity = initialLightIntensity * Flame.Instance.GetIntensityRatio();
         }
     }

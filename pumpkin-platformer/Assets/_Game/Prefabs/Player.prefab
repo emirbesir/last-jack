@@ -210,9 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e43d121c3387f41aaccc82d4ec2e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  moveForceMultiplier: 5
+  moveForceMultiplier: 10
   maxSpeed: 7
-  jumpForce: 7
+  jumpForce: 8
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -254,6 +254,7 @@ MonoBehaviour:
   glowFlameCostPerSecond: 5
   glowIntensity: 50
   glowTransitionSpeed: 1.5
+  flickerMaterial: {fileID: 0}
 --- !u!1 &1258065046692511363
 GameObject:
   m_ObjectHideFlags: 0
