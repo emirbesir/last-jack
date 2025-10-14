@@ -54,23 +54,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isCrouching) return;
 
-        Vector3 cameraForward = mainCamera.transform.forward;
-        Vector3 cameraRight = mainCamera.transform.right;
-
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-
-        Vector3 desiredDirection = cameraRight * movementInput.x + cameraForward * movementInput.y;
-
-        if (desiredDirection.sqrMagnitude > 1f)
-        {
-            desiredDirection.Normalize();
-        }
-
-        Vector3 movementForce = desiredDirection * moveForceMultiplier;
+        Vector3 movementForce = GetCameraRelativeDirectionNormalized(movementInput) * moveForceMultiplier;
 
         rb.AddForce(movementForce, ForceMode.Acceleration);
 
@@ -81,6 +65,27 @@ public class PlayerMovement : MonoBehaviour
             Vector3 clampedVelocity = horizontalVelocity.normalized * maxSpeed;
             rb.linearVelocity = new Vector3(clampedVelocity.x, rb.linearVelocity.y, clampedVelocity.z);
         }
+    }
+
+    private Vector3 GetCameraRelativeDirectionNormalized(Vector2 input)
+    {
+        Vector3 cameraForward = mainCamera.transform.forward;
+        Vector3 cameraRight = mainCamera.transform.right;
+
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        Vector3 desiredDirection = cameraRight * input.x + cameraForward * input.y;;
+
+        if (desiredDirection.sqrMagnitude > 1f)
+        {
+            desiredDirection.Normalize();
+        }
+
+        return desiredDirection;
     }
 
     private void HandleJump()

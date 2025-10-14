@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckpointManager : MonoBehaviour
+public class CheckpointManager : SingletonMonoBehaviour<CheckpointManager>
 {   
     private const float Y_OFFSET = 0.5f;
 
@@ -11,19 +10,9 @@ public class CheckpointManager : MonoBehaviour
     
     private Transform checkpoint;
 
-    // Singleton
-    public static CheckpointManager Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
 
         checkpoint = initialSpawnPoint;
         RespawnPlayer();
@@ -31,10 +20,7 @@ public class CheckpointManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        if (checkpoint != null)
-        {
-            player.position = checkpoint.position + Vector3.up * Y_OFFSET;
-        }
+        player.position = checkpoint.position + Vector3.up * Y_OFFSET;
     }
 
     public void SetCheckpoint(Transform newCheckpoint)

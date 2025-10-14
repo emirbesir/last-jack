@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
-public class Flame : MonoBehaviour
+public class Flame : SingletonMonoBehaviour<Flame>
 {
     [Header("Flame Settings")]
     [SerializeField] private float flameTotalSeconds;
@@ -24,19 +23,9 @@ public class Flame : MonoBehaviour
     // Events
     public event Action OnFlameDepleted;
 
-    // Singleton
-    public static Flame Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake() 
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
     }
 
     private void Start()

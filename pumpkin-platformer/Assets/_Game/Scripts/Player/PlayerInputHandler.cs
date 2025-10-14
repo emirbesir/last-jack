@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputHandler : MonoBehaviour
+public class PlayerInputHandler : SingletonMonoBehaviour<PlayerInputHandler>
 {
     // References
     private GameInputActions gameInputActions;
@@ -14,19 +14,9 @@ public class PlayerInputHandler : MonoBehaviour
     public event Action OnFlareStarted;
     public event Action OnFlareCanceled;
 
-    // Singleton
-    public static PlayerInputHandler Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
 
         gameInputActions = new GameInputActions();
     }
@@ -47,6 +37,8 @@ public class PlayerInputHandler : MonoBehaviour
         gameInputActions.Player.Jump.performed -= JumpPerformed;
         gameInputActions.Player.Crouch.performed -= CrouchPerformed;
         gameInputActions.Player.Interact.performed -= InteractPerformed;
+        gameInputActions.Player.Flare.started -= FlareStarted;
+        gameInputActions.Player.Flare.canceled -= FlareCanceled;
     }
 
     private void JumpPerformed(InputAction.CallbackContext context)
