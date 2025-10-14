@@ -35,6 +35,8 @@ public class Ghost : MonoBehaviour
     private float attackTimer = 0f;
     private Vector3 startingPosition;
     private Vector3 idleTargetPosition;
+    private Flame flame;
+    private ScreenManager screenManager;
 
     void Awake()
     {
@@ -58,7 +60,8 @@ public class Ghost : MonoBehaviour
 
     void Update()
     {
-        if (Flame.Instance.IsGlowing && Vector3.Distance(transform.position, playerTransform.position) <= detectionRange)
+        var flameComponent = FlameComponent;
+        if (flameComponent != null && flameComponent.IsGlowing && Vector3.Distance(transform.position, playerTransform.position) <= detectionRange)
         {
             currentState = State.Chasing;
         }
@@ -122,14 +125,16 @@ public class Ghost : MonoBehaviour
     {
         if (playerRb == null) return;
 
-        ScreenManager.Instance.SetGlitchEffect();
+        ScreenService?.SetGlitchEffect();
+
+        var flameComponent = FlameComponent;
 
         attackTimer = attackCooldown;
 
         Vector3 pushDirection = (playerTransform.position - transform.position).normalized;
         playerRb.AddForce(pushDirection * attackForce, ForceMode.Force);
         playerRb.AddTorque(0.5f * attackForce * Vector3.up, ForceMode.Force);
-        Flame.Instance.DamageFlame(damageToPlayerFlame);
+        flameComponent?.DamageFlame(damageToPlayerFlame);
 
         StartCoroutine(ClearGlitchEffectAfterDelay(0.5f));
     }
@@ -137,7 +142,7 @@ public class Ghost : MonoBehaviour
     private IEnumerator ClearGlitchEffectAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        ScreenManager.Instance.ClearGlitchEffect();
+        ScreenService?.ClearGlitchEffect();
     }
     
     private IEnumerator UpdateIdleTargetPosition()
@@ -150,6 +155,32 @@ public class Ghost : MonoBehaviour
                 startingPosition.z + Random.Range(-wanderRadius, wanderRadius)
             );
             yield return new WaitForSeconds(Random.Range(3f, 6f));
+        }
+    }
+
+    private Flame FlameComponent
+    {
+        get
+        {
+            if (flame == null)
+            {
+                flame = Flame.Instance;
+            }
+
+            return flame;
+        }
+    }
+
+    private ScreenManager ScreenService
+    {
+        get
+        {
+            if (screenManager == null)
+            {
+                screenManager = ScreenManager.Instance;
+            }
+
+            return screenManager;
         }
     }
 }

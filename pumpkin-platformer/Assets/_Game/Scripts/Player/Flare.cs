@@ -28,6 +28,8 @@ public class Flare : MonoBehaviour
     private bool isHolding = false;
     private bool isGlowing = false;
     private float initialLightIntensity;
+    private PlayerInputHandler inputHandler;
+    private Flame flame;
 
     // Public property for enemies to check
     public bool IsGlowing => isGlowing;
@@ -42,14 +44,20 @@ public class Flare : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerInputHandler.Instance.OnFlareStarted += HandleFlareStarted;
-        PlayerInputHandler.Instance.OnFlareCanceled += HandleFlareCanceled;
+        var handler = InputHandler;
+        if (handler == null) return;
+
+        handler.OnFlareStarted += HandleFlareStarted;
+        handler.OnFlareCanceled += HandleFlareCanceled;
     }
 
     private void OnDisable()
     {
-        PlayerInputHandler.Instance.OnFlareStarted -= HandleFlareStarted;
-        PlayerInputHandler.Instance.OnFlareCanceled -= HandleFlareCanceled;
+        var handler = InputHandler;
+        if (handler == null) return;
+
+        handler.OnFlareStarted -= HandleFlareStarted;
+        handler.OnFlareCanceled -= HandleFlareCanceled;
     }
 
     void Update()
@@ -81,11 +89,17 @@ public class Flare : MonoBehaviour
         bool shouldGlow = isHolding && holdTimer >= tapThreshold;
         float glowCostThisFrame = glowFlameCostPerSecond * Time.deltaTime;
 
-        if (shouldGlow && Flame.Instance.CurrentFlameSeconds > glowCostThisFrame)
+        var flameComponent = FlameComponent;
+        if (flameComponent == null)
+        {
+            return;
+        }
+
+        if (shouldGlow && flameComponent.CurrentFlameSeconds > glowCostThisFrame)
         {
             isGlowing = true;
-            Flame.Instance.DamageFlame(glowCostThisFrame);
-            Flame.Instance.SetGlowing(true);
+            flameComponent.DamageFlame(glowCostThisFrame);
+            flameComponent.SetGlowing(true);
             flickerMaterial.SetFloat(GLOW_STRENGTH_PROPERTY, 1f);
 
             playerLight.intensity = Mathf.Lerp(playerLight.intensity, glowIntensity, Time.deltaTime * glowTransitionSpeed);
@@ -93,24 +107,25 @@ public class Flare : MonoBehaviour
         else
         {
             isGlowing = false;
-            float intensityRatio = Flame.Instance.GetIntensityRatio();
+            float intensityRatio = flameComponent.GetIntensityRatio();
 
             playerLight.intensity = Mathf.Lerp(playerLight.intensity, initialLightIntensity * intensityRatio, Time.deltaTime * glowTransitionSpeed * 1.5f);
         }
 
         if (Mathf.Abs(playerLight.intensity - initialLightIntensity) < 0.1f && !isGlowing)
         {
-            Flame.Instance.SetGlowing(false);
+            flameComponent.SetGlowing(false);
             flickerMaterial.SetFloat(GLOW_STRENGTH_PROPERTY, 0f);
-            playerLight.intensity = initialLightIntensity * Flame.Instance.GetIntensityRatio();
+            playerLight.intensity = initialLightIntensity * flameComponent.GetIntensityRatio();
         }
     }
 
     private void ExecutePulse()
     {
-        if (Flame.Instance.CurrentFlameSeconds < pulseFlameCost) return;
+        var flameComponent = FlameComponent;
+        if (flameComponent == null || flameComponent.CurrentFlameSeconds < pulseFlameCost) return;
 
-        Flame.Instance.DamageFlame(pulseFlameCost);
+        flameComponent.DamageFlame(pulseFlameCost);
 
         if (pulseParticle != null) pulseParticle.Play();
 
@@ -121,6 +136,32 @@ public class Flare : MonoBehaviour
             {
                 rb.AddExplosionForce(pulseForce, transform.position, pulseRadius);   
             }
+        }
+    }
+
+    private PlayerInputHandler InputHandler
+    {
+        get
+        {
+            if (inputHandler == null)
+            {
+                inputHandler = PlayerInputHandler.Instance;
+            }
+
+            return inputHandler;
+        }
+    }
+
+    private Flame FlameComponent
+    {
+        get
+        {
+            if (flame == null)
+            {
+                flame = Flame.Instance;
+            }
+
+            return flame;
         }
     }
 }

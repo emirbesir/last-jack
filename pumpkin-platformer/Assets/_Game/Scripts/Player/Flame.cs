@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
-public class Flame : MonoBehaviour
+public class Flame : SingletonMonoBehaviour<Flame>
 {
     [Header("Flame Settings")]
     [SerializeField] private float flameTotalSeconds;
@@ -24,23 +23,22 @@ public class Flame : MonoBehaviour
     // Events
     public event Action OnFlameDepleted;
 
-    // Singleton
-    public static Flame Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null && Instance != this)
+        base.Awake();
+        if (!IsPrimaryInstance)
         {
-            Destroy(gameObject);
             return;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
+        if (!IsPrimaryInstance)
+        {
+            return;
+        }
+
         currentFlameSeconds = flameTotalSeconds;
         startingFlameIntensity = flameLight.intensity;
         isFlameDepleted = false;
@@ -48,6 +46,11 @@ public class Flame : MonoBehaviour
 
     private void Update()
     {
+        if (!IsPrimaryInstance)
+        {
+            return;
+        }
+
         if (playerMovement.IsCrouching) return;
 
         DecayFlame();

@@ -7,13 +7,15 @@ public class Puddle : MonoBehaviour
     [SerializeField] private float flameDrainRate = 2f;
 
     private bool isPlayerInPuddle;
+    private Flame flame;
+    private ScreenManager screenManager;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer(PLAYER_LAYER_NAME))
         {
             isPlayerInPuddle = true;
-            ScreenManager.Instance.SetGlitchEffect();
+            ScreenService?.SetGlitchEffect();
         }
     }
 
@@ -21,7 +23,7 @@ public class Puddle : MonoBehaviour
     {
         if (isPlayerInPuddle)
         {
-            Flame.Instance.DamageFlame(flameDrainRate * Time.deltaTime);
+            FlameComponent?.DamageFlame(flameDrainRate * Time.deltaTime);
         }
     }
 
@@ -30,7 +32,33 @@ public class Puddle : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer(PLAYER_LAYER_NAME))
         {
             isPlayerInPuddle = false;
-            ScreenManager.Instance.ClearGlitchEffect();
+            ScreenService?.ClearGlitchEffect();
+        }
+    }
+
+    private Flame FlameComponent
+    {
+        get
+        {
+            if (flame == null)
+            {
+                flame = Flame.Instance;
+            }
+
+            return flame;
+        }
+    }
+
+    private ScreenManager ScreenService
+    {
+        get
+        {
+            if (screenManager == null)
+            {
+                screenManager = ScreenManager.Instance;
+            }
+
+            return screenManager;
         }
     }
 }

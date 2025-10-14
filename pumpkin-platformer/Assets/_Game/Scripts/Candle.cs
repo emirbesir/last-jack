@@ -14,6 +14,9 @@ public class Candle : MonoBehaviour
 
     // References
     private BoxCollider boxCollider;
+    private PlayerInputHandler inputHandler;
+    private Flame flame;
+    private CheckpointManager checkpointManager;
 
     // State
     private bool isPlayerInRange;
@@ -32,12 +35,18 @@ public class Candle : MonoBehaviour
     
     private void OnEnable()
     {
-        PlayerInputHandler.Instance.OnInteractPerformed += HandleInteract;
+        var handler = InputHandler;
+        if (handler == null) return;
+
+        handler.OnInteractPerformed += HandleInteract;
     }
 
     private void OnDisable()
     {
-        PlayerInputHandler.Instance.OnInteractPerformed -= HandleInteract;
+        var handler = InputHandler;
+        if (handler == null) return;
+
+        handler.OnInteractPerformed -= HandleInteract;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -62,19 +71,61 @@ public class Candle : MonoBehaviour
         {
             if (isCheckpoint)
             {
-                CheckpointManager.Instance.SetCheckpoint(transform);
-                Flame.Instance.IncreaseMaxFlame(flameReplenishSeconds);
-                Flame.Instance.ResetFlame();
+                var checkpointService = CheckpointService;
+                var flameService = FlameComponent;
+
+                checkpointService?.SetCheckpoint(transform);
+                flameService?.IncreaseMaxFlame(flameReplenishSeconds);
+                flameService?.ResetFlame();
             }
             else
             {
-                Flame.Instance.ReplenishFlame(flameReplenishSeconds);
+                FlameComponent?.ReplenishFlame(flameReplenishSeconds);
             }
             
             candleLight.enabled = false;
             boxCollider.enabled = false;
             hasBeenUsed = true;
             candleParticles.Stop();
+        }
+    }
+
+    private PlayerInputHandler InputHandler
+    {
+        get
+        {
+            if (inputHandler == null)
+            {
+                inputHandler = PlayerInputHandler.Instance;
+            }
+
+            return inputHandler;
+        }
+    }
+
+    private Flame FlameComponent
+    {
+        get
+        {
+            if (flame == null)
+            {
+                flame = Flame.Instance;
+            }
+
+            return flame;
+        }
+    }
+
+    private CheckpointManager CheckpointService
+    {
+        get
+        {
+            if (checkpointManager == null)
+            {
+                checkpointManager = CheckpointManager.Instance;
+            }
+
+            return checkpointManager;
         }
     }
 }

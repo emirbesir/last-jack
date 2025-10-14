@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,20 +9,25 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject player;
     private Rigidbody playerRb;
+    private Flame flame;
+    private CheckpointManager checkpointManager;
+    private ScreenManager screenManager;
+    private bool isSubscribedToFlame;
 
     private void Start()
     {
         playerRb = player.GetComponent<Rigidbody>();
+        SubscribeToFlame();
     }
 
     private void OnEnable()
     {
-        Flame.Instance.OnFlameDepleted += HandleFlameDepleted;
+        SubscribeToFlame();
     }
-    
+
     private void OnDisable()
     {
-        Flame.Instance.OnFlameDepleted -= HandleFlameDepleted;
+        UnsubscribeFromFlame();
     }
 
     private void HandleFlameDepleted()
@@ -36,14 +40,88 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         
         // Reset
-        Flame.Instance.ResetFlame();
-        CheckpointManager.Instance.RespawnPlayer();
+        FlameComponent?.ResetFlame();
+        CheckpointService?.RespawnPlayer();
 
         // Reset player velocity to prevent carry-over momentum
         playerRb.linearVelocity = Vector3.zero;
         playerRb.angularVelocity = Vector3.zero;
         player.transform.localRotation = Quaternion.identity;
         
-        ScreenManager.Instance.ScreenOpeningEffect();
+        ScreenService?.ScreenOpeningEffect();
+    }
+
+    private void SubscribeToFlame()
+    {
+        if (isSubscribedToFlame)
+        {
+            return;
+        }
+
+        var flameComponent = FlameComponent;
+        if (flameComponent == null)
+        {
+            return;
+        }
+
+        flameComponent.OnFlameDepleted += HandleFlameDepleted;
+        isSubscribedToFlame = true;
+    }
+
+    private void UnsubscribeFromFlame()
+    {
+        if (!isSubscribedToFlame)
+        {
+            return;
+        }
+
+        var flameComponent = FlameComponent;
+        if (flameComponent == null)
+        {
+            isSubscribedToFlame = false;
+            return;
+        }
+
+        flameComponent.OnFlameDepleted -= HandleFlameDepleted;
+        isSubscribedToFlame = false;
+    }
+
+    private Flame FlameComponent
+    {
+        get
+        {
+            if (flame == null)
+            {
+                flame = Flame.Instance;
+            }
+
+            return flame;
+        }
+    }
+
+    private CheckpointManager CheckpointService
+    {
+        get
+        {
+            if (checkpointManager == null)
+            {
+                checkpointManager = CheckpointManager.Instance;
+            }
+
+            return checkpointManager;
+        }
+    }
+
+    private ScreenManager ScreenService
+    {
+        get
+        {
+            if (screenManager == null)
+            {
+                screenManager = ScreenManager.Instance;
+            }
+
+            return screenManager;
+        }
     }
 }

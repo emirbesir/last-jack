@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ScreenManager : MonoBehaviour
+public class ScreenManager : SingletonMonoBehaviour<ScreenManager>
 {
     private const string CRT_COLOR_PROPERTY = "_Color";
     private const string GLITCH_STRENGTH_PROPERTY = "_Glitch_Strength";
@@ -25,22 +25,22 @@ public class ScreenManager : MonoBehaviour
     [Range(0.0f, 100.0f)]
     [SerializeField] private float glitchStrength;
 
-    public static ScreenManager Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null && Instance != this)
+        base.Awake();
+        if (!IsPrimaryInstance)
         {
-            Destroy(gameObject);
             return;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
+        if (!IsPrimaryInstance)
+        {
+            return;
+        }
+
         ClearGlitchEffect();
         ScreenOpeningEffect();
     }
