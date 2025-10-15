@@ -6,7 +6,7 @@ public class SmoothFollow : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private float ySmoothSpeed;
 
-    private void LateUpdate()
+    private void Update()
     {
         if (target == null)
         {

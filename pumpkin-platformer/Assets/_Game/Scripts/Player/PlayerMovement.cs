@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        Vector3 desiredDirection = cameraRight * input.x + cameraForward * input.y;;
+        Vector3 desiredDirection = cameraRight * input.x + cameraForward * input.y;
 
         if (desiredDirection.sqrMagnitude > 1f)
         {
