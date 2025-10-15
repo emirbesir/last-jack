@@ -12,9 +12,6 @@ public class Ghost : MonoBehaviour
         Chasing
     }
 
-    [Header("References")]
-    [SerializeField] private GameObject player;
-
     [Header("Movement")]
     [SerializeField] private float chaseSpeed = 5f;
     [SerializeField] private float idleWanderSpeed = 1f;
@@ -36,6 +33,9 @@ public class Ghost : MonoBehaviour
     private Vector3 startingPosition;
     private Vector3 idleTargetPosition;
 
+    // References
+    private Transform player;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -44,11 +44,7 @@ public class Ghost : MonoBehaviour
 
     void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag(PLAYER_LAYER_NAME);
-        }
-        
+        player = Flame.Instance.gameObject.transform;
         playerTransform = player.transform;
         playerRb = player.GetComponent<Rigidbody>();
 
