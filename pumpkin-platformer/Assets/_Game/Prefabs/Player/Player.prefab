@@ -210,8 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e43d121c3387f41aaccc82d4ec2e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  moveForceMultiplier: 10
-  maxSpeed: 10
+  moveForceMultiplier: 15
+  maxSpeed: 7
   jumpForce: 6
   groundLayer:
     serializedVersion: 2
