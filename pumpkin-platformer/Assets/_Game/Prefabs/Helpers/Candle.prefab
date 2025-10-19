@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45b1da31a0c89e46b1fbf72b2f3ea6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  flameReplenishSeconds: 15
+  flameReplenishSeconds: 5
   isCheckpoint: 0
   candleLight: {fileID: 5375781333251031553}
   candleParticles: {fileID: 1092238229517177599}
