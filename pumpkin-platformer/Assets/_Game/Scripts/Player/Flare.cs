@@ -78,6 +78,8 @@ public class Flare : MonoBehaviour
 
     private void HandleGlow()
     {
+        if (Time.timeScale == 0f) return;
+        
         bool shouldGlow = isHolding && holdTimer >= tapThreshold;
         float glowCostThisFrame = glowFlameCostPerSecond * Time.deltaTime;
 
@@ -109,6 +111,7 @@ public class Flare : MonoBehaviour
     private void ExecutePulse()
     {
         if (Flame.Instance.CurrentFlameSeconds < pulseFlameCost) return;
+        if (Time.timeScale == 0f) return;
 
         Flame.Instance.DamageFlame(pulseFlameCost);
 

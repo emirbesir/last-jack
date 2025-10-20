@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         if (isCrouching) return;
+        if (Time.timeScale == 0f) return;
 
         Vector3 movementForce = GetCameraRelativeDirectionNormalized(movementInput) * moveForceMultiplier;
 

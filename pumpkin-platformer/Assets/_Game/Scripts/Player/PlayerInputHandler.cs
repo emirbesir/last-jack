@@ -13,6 +13,7 @@ public class PlayerInputHandler : SingletonMonoBehaviour<PlayerInputHandler>
     public event Action OnInteractPerformed;
     public event Action OnFlareStarted;
     public event Action OnFlareCanceled;
+    public event Action OnSubmitPerformed;
 
     protected override void Awake()
     {
@@ -29,6 +30,7 @@ public class PlayerInputHandler : SingletonMonoBehaviour<PlayerInputHandler>
         gameInputActions.Player.Interact.performed += InteractPerformed;
         gameInputActions.Player.Flare.started += FlareStarted;
         gameInputActions.Player.Flare.canceled += FlareCanceled;
+        gameInputActions.UI.Submit.performed += SubmitPerformed;
     }
 
     private void OnDisable()
@@ -39,6 +41,7 @@ public class PlayerInputHandler : SingletonMonoBehaviour<PlayerInputHandler>
         gameInputActions.Player.Interact.performed -= InteractPerformed;
         gameInputActions.Player.Flare.started -= FlareStarted;
         gameInputActions.Player.Flare.canceled -= FlareCanceled;
+        gameInputActions.UI.Submit.performed -= SubmitPerformed;
     }
 
     private void JumpPerformed(InputAction.CallbackContext context)
@@ -64,6 +67,11 @@ public class PlayerInputHandler : SingletonMonoBehaviour<PlayerInputHandler>
     private void FlareCanceled(InputAction.CallbackContext context)
     {
         OnFlareCanceled?.Invoke();
+    }
+
+    private void SubmitPerformed(InputAction.CallbackContext context)
+    {
+        OnSubmitPerformed?.Invoke();
     }
 
     public Vector2 GetMovementInput()
