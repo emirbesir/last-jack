@@ -427,12 +427,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed59c9aef0f4cf4ba80b71f4c5ce427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  player: {fileID: 0}
   chaseSpeed: 5
   idleWanderSpeed: 1
   wanderRadius: 5
   detectionRange: 10
-  attackRange: 1
+  attackRange: 2
   attackForce: 300
   attackCooldown: 3
   damageToPlayerFlame: 5

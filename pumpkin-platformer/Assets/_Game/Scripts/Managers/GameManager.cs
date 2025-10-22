@@ -34,14 +34,15 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         
-        // Reset
-        Flame.Instance.ResetFlame();
-        CheckpointManager.Instance.RespawnPlayer();
-
         // Reset player velocity to prevent carry-over momentum
         playerRb.linearVelocity = Vector3.zero;
         playerRb.angularVelocity = Vector3.zero;
         player.transform.localRotation = Quaternion.identity;
+        
+        // Reset
+        CheckpointManager.Instance.RespawnPlayer();
+        Flame.Instance.ResetFlame();
+
         
         ScreenManager.Instance.ScreenOpeningEffect();
     }

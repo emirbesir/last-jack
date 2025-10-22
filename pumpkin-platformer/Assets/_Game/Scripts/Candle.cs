@@ -63,6 +63,7 @@ public class Candle : MonoBehaviour
             if (isCheckpoint)
             {
                 CheckpointManager.Instance.SetCheckpoint(transform);
+                Debug.Log("Checkpoint set!");
                 Flame.Instance.IncreaseMaxFlame(flameReplenishSeconds);
                 Flame.Instance.ResetFlame();
             }

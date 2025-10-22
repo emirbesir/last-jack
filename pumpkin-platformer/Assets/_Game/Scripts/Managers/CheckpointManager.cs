@@ -21,6 +21,7 @@ public class CheckpointManager : SingletonMonoBehaviour<CheckpointManager>
     public void RespawnPlayer()
     {
         player.position = checkpoint.position + Vector3.up * Y_OFFSET;
+        Debug.Log("Player respawned at checkpoint: " + checkpoint.position);
     }
 
     public void SetCheckpoint(Transform newCheckpoint)

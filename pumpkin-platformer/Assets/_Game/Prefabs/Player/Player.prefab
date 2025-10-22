@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4fbc85ee444354892a0fd95a782eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  flameTotalSeconds: 60
+  flameTotalSeconds: 90
   flameDecayRate: 1
   minFlameIntensity: 0.2
   flameLight: {fileID: 7488297977521600525}
@@ -251,7 +251,7 @@ MonoBehaviour:
   pulseFlameCost: 5
   pulseRadius: 8
   pulseForce: 500
-  glowFlameCostPerSecond: 9
+  glowFlameCostPerSecond: 10
   glowIntensity: 50
   glowTransitionSpeed: 1.5
   flickerMaterial: {fileID: 2100000, guid: 6bf927be2ffe8bf4abc3451ef508703d, type: 2}
