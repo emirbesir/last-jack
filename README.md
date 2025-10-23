@@ -13,26 +13,26 @@ _Made and Tested with **Unity 6000.2.6f1**_
 
 </div>
 
-## Assetler
+## Assets
 
-[Kullanılan Assetler](docs/ASSETS.md)
+[Assets Used](docs/ASSETS.md)
 
-## Ekran Görüntüleri
+## Screenshot
 
 ![Screenshot 1](docs/img/menu.png)
 
-*Ana Menü*
+*Main Menu*
 
 ---
 
 ![Screenshot 2](docs/img/ingame-1.png)
 
-*Oyun içi*
+*In-Game*
 
 ---
 
 ![Screenshot 2](docs/img/ingame-2.png)
 
-*Oyun içi*
+*In-Game*
 
 ---
