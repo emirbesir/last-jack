@@ -12,3 +12,27 @@ This repository contains a 3D atmospheric physics-platformer game built with C# 
 _Made and Tested with **Unity 6000.2.6f1**_
 
 </div>
+
+## Assetler
+
+[Kullanılan Assetler](docs/ASSETS.md)
+
+## Ekran Görüntüleri
+
+![Screenshot 1](docs/img/menu.png)
+
+*Ana Menü*
+
+---
+
+![Screenshot 2](docs/img/ingame-1.png)
+
+*Oyun içi*
+
+---
+
+![Screenshot 2](docs/img/ingame-2.png)
+
+*Oyun içi*
+
+---
