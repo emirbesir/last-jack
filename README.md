@@ -17,7 +17,7 @@ _Made and Tested with **Unity 6000.2.6f1**_
 
 [Assets Used](docs/ASSETS.md)
 
-## Screenshot
+## Screenshots
 
 ![Screenshot 1](docs/img/menu.png)
 
